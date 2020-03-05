@@ -29,12 +29,28 @@ class _HomePageState extends State<HomePage> {
     });    
   }
 
+  void _limparCampos() {
+    setState(() {
+      _valorPessoa = "Informe seus dados";
+      quantidadePessoasController.text = "";
+      valorContaController.text = "";
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Raxa Conta"),
         centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: (){
+              _limparCampos();
+            },
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
