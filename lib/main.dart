@@ -16,6 +16,8 @@ class _HomePageState extends State<HomePage> {
   TextEditingController quantidadePessoasController = TextEditingController();
   TextEditingController valorContaController = TextEditingController();
 
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   String _valorPessoa = "Informe seus dados";
 
   void _calcular() {
@@ -56,6 +58,7 @@ class _HomePageState extends State<HomePage> {
         child: Padding(
           padding: EdgeInsets.all(10),
           child: Form(
+            key: _formKey,
             child: (Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
@@ -72,6 +75,11 @@ class _HomePageState extends State<HomePage> {
                       labelStyle: TextStyle(color: Colors.blue)),
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.blue, fontSize: 18),
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return "Insira a quantidade de pessoas";
+                    }
+                  },
                 ),
                 TextFormField(
                   keyboardType: TextInputType.number,
@@ -81,6 +89,11 @@ class _HomePageState extends State<HomePage> {
                       labelStyle: TextStyle(color: Colors.blue)),
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.blue, fontSize: 18),
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return "Insira o valor da conta";
+                    }
+                  }
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 20, bottom: 20),
@@ -88,7 +101,11 @@ class _HomePageState extends State<HomePage> {
                     height: 40,
                     child: RaisedButton(
                           onPressed: () {
-                            _calcular();
+                            if (_formKey.currentState.validate()){
+                              _calcular();
+                              valorContaController.clear();
+                              quantidadePessoasController.clear();
+                            }
                           },
                           color: Colors.blue,
                           child: Text("Calcular", style: TextStyle(color: Colors.white, fontSize: 18),),
